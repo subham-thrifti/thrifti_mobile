@@ -1,0 +1,6 @@
+module Pods_thrifti_thriftiTests {
+  umbrella header "Pods-thrifti-thriftiTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
