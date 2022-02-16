@@ -57,33 +57,6 @@ const CardSuccess = (props) => {
 export default CardSuccess
 
 
-const commonStyles = {
-    pbtn: {
-        borderRadius: 50,
-        backgroundColor: '#3e84fe',
-        color: '#ffffff',
-        fontSize: 16,
-        height: 50,
-        width: 249
-    },
-    disabledBtn: {
-        borderRadius: 50,
-        color: '#ffffff',
-        fontSize: 16,
-        height: 50,
-        width: 249
-    },
-    mTop10: {
-        marginTop: 10
-    },
-    mTop20: {
-        marginTop: 20
-    },
-    color: {
-        slate: '#4C5264'
-    }
-}
-
 const styles = StyleSheet.create({
     flexContainer: {
         display: 'flex',

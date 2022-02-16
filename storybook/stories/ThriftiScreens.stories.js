@@ -2,7 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 
-import { STORES, STORES_GROUPED_BY_FIRST_ALPHABET } from '../../Components/Constants/mockData'
+import { STORES, STORES_GROUPED_BY_FIRST_ALPHABET, FAV_STORES, NEARBY_STORES,
+  PRODUCT_CATEGORIES, SELECTED_PRODUCTS_LIST } from '../../Components/Constants/mockData'
 import CustomContainer from '../../Components/Common/CustomContainer';
 
 import WelcomBack from '../../Components/screens/WelcomBack';
@@ -30,8 +31,17 @@ import AddCard from '../../Components/screens/grocery/AddCard';
 import ChooseSuperMarket from '../../Components/screens/grocery/ChooseSuperMarket';
 import ManualCardData from '../../Components/screens/grocery/ManualCardData'
 import CardSuccess from '../../Components/screens/grocery/CardSuccess'
-
+import ChooseStore from '../../Components/screens/grocery/ChooseStore'
+import ProductCategories from '../../Components/screens/grocery/ProductCategories'
+import ShoppingList from '../../Components/screens/grocery/ShoppingList'
+import LoadingStoreRecommendation from '../../Components/screens/grocery/LoadingStoreRecommendation'
+import RecommendedAltStore from '../../Components/screens/grocery/RecommendedAltStore'
+import StoreWiseShoppingList from '../../Components/screens/grocery/StoreWiseShoppingList'
+import EnterEmail from '../../Components/screens/grocery/WaitingList/EnterEmail'
+import EarlyAccessWaitingMessage from '../../Components/screens/grocery/WaitingList/EarlyAccessWaitingMessage';
+import JoinWaitingList from '../../Components/screens/grocery/WaitingList/JoinWaitingList';
 import countries from '../countries'
+
 
 storiesOf('WelcomeBack', module)
   .add('plain example', () => (<CustomContainer>
@@ -136,7 +146,6 @@ storiesOf('AddCreditCard', module)
 
 
 
-
 /// Grocery
 storiesOf('Grocery', module)
   .add('Splash Screen', () => (<SplashScreen />))
@@ -157,5 +166,33 @@ storiesOf('Grocery', module)
   </CustomContainer>))
   .add('Card Added Successfully', () => (<CustomContainer>
       <CardSuccess  onPressBtn={action('Button Pressed')}/>
+    </CustomContainer>))
+    .add('Choose Store', () => (<CustomContainer>
+      <ChooseStore favStores={FAV_STORES} nearbyStores={NEARBY_STORES} onPressContinue={action('selected stores')} onPressBack={action('Back')}/>
+    </CustomContainer>))
+     .add('Product Categories', () => (<CustomContainer>
+      <ProductCategories store={{label: 'Loblaws', value: 'LOBLAW'}} productCategories={PRODUCT_CATEGORIES} onSelectItem={action("Selected Item")} onPressContinue={action('selected stores')} onPressBack={action('Back')}/>
+    </CustomContainer>))
+    .add('Shopping List', () => (<CustomContainer>
+      <ShoppingList shoppingListTitle={'Loblaws Shopping List'} productList={SELECTED_PRODUCTS_LIST.slice(3)} onPressContinue={action("Pressed Continue")}  onPressBack={action('Back')} />
+    </CustomContainer>))
+    .add('Fetching best Stores Recommendation', () => (<CustomContainer>
+      <LoadingStoreRecommendation />
+    </CustomContainer>))
+    .add('Recommended Alt Store', () => (<CustomContainer>
+      <RecommendedAltStore const selectedStore={{ ...STORES[0], cartValue: 100}} recommendedStore={{...STORES[1], cartValue: 70}} onPressBtn={action('customer decision')}/>
+    </CustomContainer>))
+    .add('Store wise shopping List ', () => (<CustomContainer>
+      <StoreWiseShoppingList stores={STORES.slice(4)}/>
     </CustomContainer>));
-  
+
+    storiesOf('Waiting List', module)
+    .add('Enter Email', () => (<CustomContainer>
+      <EnterEmail onPressJoinWaitingList={action('Email is ')}/>
+    </CustomContainer>))
+    .add('Early Access Message', () => (<CustomContainer>
+      <EarlyAccessWaitingMessage customerWaitingCount={'24,523'} totalWaitingCount={'24,523'} onPressShare={action('Share & Invite pressed')} />
+    </CustomContainer>))
+    .add('Join Waiting List', () => (<CustomContainer>
+      <JoinWaitingList onPressJoinWaitingList={action('Join Waiting List')} />
+    </CustomContainer>));

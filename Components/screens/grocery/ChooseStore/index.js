@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, StatusBar } from 'react-native';
-import { SearchBar, Button } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 
 import RoundItemBadge from '../../../Common/RoundItemBadge'
 import baseStyles from '../../../../css/layout/base'
 import colors from '../../../../css/abstracts/variables'
 import colorStyles from "../../../../css/abstracts/color";
-import elemStyles from '../../../../css/elemStyles';
+
 
 
 
@@ -23,15 +23,16 @@ const filterItemsBySearchLabel = (items, searchLabel) => {
 }
 
 
-const SelectFavStore = (props) => {
-    const { onPressSkip, storeSelectionLimit, onPressContinue } = props;
+const ChooseStore = (props) => {
+    const { storeSelectionLimit, onPressBack } = props;
     const [searchTerm, setSearchTerm] = useState('')
-    const [stores, setStores] = useState(props.stores)
+    const [favStores, setFavStores] = useState(props.favStores)
+    const [nearbyStores, setNearbyStores] = useState(props.nearbyStores)
     const [selectedStoreMap, selectStore] = useState({})
 
 
-    onSkip = () => {
-        onPressSkip()
+    onBack = () => {
+        onPressBack()
     }
 
     onStoreSelect = (selectedStore) => {
@@ -49,19 +50,21 @@ const SelectFavStore = (props) => {
         return (
             <View style={baseStyles.flexRow}>
                 <View style={[baseStyles.alignItemsStart]}>
-                    <Text style={baseStyles.f14}>{'Select Favorite Stores'} </Text>
+                    <Text style={baseStyles.f14}>{'Choose Stores'} </Text>
                 </View>
                 <View style={[baseStyles.flexTwo, baseStyles.alignItemsEnd]}>
-                    <Text onPress={onSkip} style={colorStyles.bluetiful}> {'Skip'} </Text>
+                    <Text onPress={onBack} style={colorStyles.bluetiful}> {'Back'} </Text>
                 </View>
             </View>)   
     }
 
-    renderStoresInGrid = () => {
+    renderStoresInGrid = (stores) => {
         if (stores) {
             return (<View style={styles.flexContainer}>
                 {stores.map(item => (
-                    <RoundItemBadge onBadgeSelect={onStoreSelect} item={item} isSelected={!!selectedStoreMap[item.id]} />
+                    <Fragment key={item.id}>
+                        <RoundItemBadge onBadgeSelect={onStoreSelect} item={item} isSelected={!!selectedStoreMap[item.id]} />
+                    </Fragment> 
                 ))}
             </View>)
         }
@@ -79,66 +82,62 @@ const SelectFavStore = (props) => {
     }
 
     useEffect(() => {
-        const filteredStores = filterItemsBySearchLabel(props.stores, searchTerm)
-        setStores(filteredStores)
+        const filteredFavStores = filterItemsBySearchLabel(props.favStores, searchTerm)
+        setFavStores(filteredFavStores)
+        const filteredNearbyStores = filterItemsBySearchLabel(props.nearbyStores, searchTerm)
+        setNearbyStores(filteredNearbyStores)
     }, [searchTerm])
-
-    renderBottomPanel = () => {
-        return (
-        <View style={[baseStyles.mTop10, baseStyles.p5, styles.bottomPanel, baseStyles.flexRow]}>
-            <Text style={baseStyles.flexOne}> {`Selected Stores \n ${getSelectedStoreCount()}/${storeSelectionLimit}`}</Text>
-            <View style={baseStyles.flexTwo, { alignItems: 'flex-end'}}>
-             <Button title={'Continue'}
-                 raised={true}
-                 titleStyle={{...colorStyles.white, fontSize: 14, fontWeight: '600'}}
-                 buttonStyle={elemStyles.pBtnXtraSmall}
-                 containerStyle={{ ...elemStyles.pBtnXtraSmall }}
-                 onPress={onContinueButtonPress}
-                 />
-             </View>        
-         </View>)
-    }
 
     return (
         <Fragment>
             {renderNavigationStrip()}
             <View style={[baseStyles.makeFlex, baseStyles.alignJustifyCenter, baseStyles.mTop40]}>
-                <Text style={[baseStyles.f14]}>
-                    {'Select 4 stores where you do grocery shopping'}
+                <Text style={[baseStyles.f12, colorStyles.lightgrey2]}>
+                    {`These are the stores near you that have  \n              added their loyalty cards`}
                 </Text>
             </View>    
-            <View style={baseStyles.mTop5}> 
+            <View style={baseStyles.mTop15}> 
                 <SearchBar
                     platform="ios"
-                    placeholder="Search"
+                    placeholder="Search for other stores"
                     placeholderTextColor={colors.blueGrey}
                     inputContainerStyle={{backgroundColor: colors.lightgrey}}
                     onChangeText={setSearchTerm}
                     value={searchTerm}
                 />
             </View>
-            <View style={[baseStyles.makeFlex, baseStyles.alignJustifyCenter, baseStyles.mTop40, baseStyles.mLeft10]}>
-                <Text style={[baseStyles.f12, colorStyles.slate]}>
-                    {/* TODO: Fix Layout */}
-                    {'Showing stores near you, you can search for other stores'}
-                </Text>
-            </View>
+            {!searchTerm && <>
             <View style={{ paddingTop: StatusBar.currentHeight, height: 400 }}>
-                <ScrollView>
-                    {renderStoresInGrid()}
-                </ScrollView> 
+                    <View style={[baseStyles.makeFlex, baseStyles.alignJustifyCenter, baseStyles.mTop20, baseStyles.mLeft10]}>
+                        <Text style={[baseStyles.f12, colorStyles.slate]}>
+                            {'Favorite Stores'}
+                        </Text>
+                    </View>
+                    {renderStoresInGrid(favStores)}
+                    <View style={[baseStyles.makeFlex, baseStyles.alignJustifyCenter, baseStyles.mTop10, baseStyles.mLeft10]}>
+                        <Text style={[baseStyles.f12, colorStyles.slate]}>
+                            {'Nearby Stores'}
+                        </Text>
+                    </View>
+                    {renderStoresInGrid(nearbyStores)}
             </View>
-            {renderBottomPanel()}
+            </>}
+
+            {!!searchTerm && <View style={{ paddingTop: StatusBar.currentHeight, height: 400 }}>
+                <ScrollView>
+                    {renderStoresInGrid([...favStores, ...nearbyStores])}
+                </ScrollView>    
+            </View>}
         </Fragment>
     )
 }
 
 
-SelectFavStore.defaultProps = {
-    storeSelectionLimit: 4
+ChooseStore.defaultProps = {
+    storeSelectionLimit: 1
 }
 
-export default SelectFavStore
+export default ChooseStore
 
 
 
@@ -151,26 +150,5 @@ const styles = StyleSheet.create({
         padding: 0,
         margin: 0,
         flex: 1
-    },
-    flexItem: {
-        marginTop: 5,
-        color: colors.black,
-        fontSize: 14,
-        textAlign: 'center'
-    },
-    bottomPanel: {
-        height: 60,
-        paddingLeft: 15,
-        paddingRight: 15,
-        borderColor:'rgba(0,0,0,0.2)',
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:'#fff',
-        borderRadius: 10,
-        shadowColor: 'rgba(0,0,0, .3)',
-        shadowOffset: { height: 1, width: 1 },
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 2,
     }
 })

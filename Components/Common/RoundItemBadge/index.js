@@ -1,4 +1,5 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon, Image } from 'react-native-elements';
 
@@ -13,7 +14,8 @@ const ImageComponent = (props) => {
                 source={ImageSource}
                 style={{ width: 70, height: 80}}
                 resizeMode="contain"
-                PlaceholderContent={<Text> loading </Text>}
+                placeholderStyle={{backgroundColor: colors.white}}
+                PlaceholderContent={<ActivityIndicator siz="small" color={colors.bluetiful}/>}
             />
         </View>)
   }

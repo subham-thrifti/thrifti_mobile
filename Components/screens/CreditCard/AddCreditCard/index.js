@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Button, Image } from 'react-native-elements';
+import colors from '../../../../css/abstracts/variables';
 
 const ImageSource = require('../../../../assets/images/cards/Thrifti_card_placeholder_2X.png')
 
@@ -29,7 +30,7 @@ const AddCreditCard = (props) => {
                     <Image 
                         source={ImageSource}
                         style={{ width: 330, height: 250 }}
-                        PlaceholderContent={<ActivityIndicator />}
+                        PlaceholderContent={<ActivityIndicator siz={"small"} color={colors.bluetiful} />}
                     />
                 </View>
             </View>

@@ -1,5 +1,7 @@
+import PRODUCT_CATEGORIES from './productCategoriesMock'
+import { SELECTED_PRODUCTS_LIST } from './selectedProductList'
 
-const ImageSource = require('../../assets/images/stores/Loblaws-Logo.png');
+const ImageSource = require('../../../assets/images/stores/Loblaws-Logo.png');
 
 const STORES = [
     { id: 1, imgUrl: ImageSource, label: 'A & P'},
@@ -23,8 +25,17 @@ const STORES_GROUPED_BY_FIRST_ALPHABET = {
     'F': [{ id: 15, imgUrl: ImageSource, label: 'Foop'},{ id: 16, imgUrl: ImageSource, label: 'Foppa'}],
 };
 
+const FAV_STORES = STORES.slice(0,3)
+const NEARBY_STORES = STORES.slice(4,10)
+
+
+
 export {    
     STORES,
-    STORES_GROUPED_BY_FIRST_ALPHABET
+    FAV_STORES,
+    NEARBY_STORES,
+    STORES_GROUPED_BY_FIRST_ALPHABET,
+    PRODUCT_CATEGORIES,
+    SELECTED_PRODUCTS_LIST
 }
 

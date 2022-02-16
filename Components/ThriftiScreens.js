@@ -30,7 +30,6 @@ const ThriftiScreens = ({children, title}): Node => {
    const [ currentPageIdx, setCurrentPageIdx] = useState(0)
    
    const updateCurrentPageIdx = (pageIdx) => {
-     console.log(pageIdx, 'XXX')
     setCurrentPageIdx(pageIdx)
    }
 

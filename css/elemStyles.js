@@ -10,6 +10,14 @@ const pBtnLarge = {
     width: 249
 }
 
+const pBtnMedium = {
+    borderRadius: 50,
+    backgroundColor: colors.bluetiful,
+    // fontSize: 14,
+    height: 50,
+    width: 180
+}
+
 const pBtnSmall = {
     borderRadius: 50,
     backgroundColor: colors.bluetiful,
@@ -33,11 +41,21 @@ const pBtnXtraSmall = {
     width: 90
 }
 
+const greyXtraSmallBtn = {
+    borderRadius: 5,
+    padding: 0,
+    backgroundColor: colors.paleGrey,
+    height: 23,
+    width: 23
+}
+
 const buttonStyles = {
     pBtnXtraSmall,
     pBtnSmall,
     pBtnSmallWhite,
+    pBtnMedium,
     pBtnLarge,
+    greyXtraSmallBtn,
 }
 
 
