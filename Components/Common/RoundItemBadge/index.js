@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 import { ActivityIndicator } from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon, Image } from 'react-native-elements';
